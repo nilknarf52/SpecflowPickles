@@ -129,6 +129,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Artefatos\" />
     <Folder Include="Data\" />
   </ItemGroup>
   <Choose>
