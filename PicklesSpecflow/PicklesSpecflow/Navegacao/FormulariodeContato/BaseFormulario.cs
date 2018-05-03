@@ -76,8 +76,6 @@ namespace PicklesSpecflow.Navegacao.FormulariodeContato
         {
             Formulario.ResultadoCorreto(assert);
         }
-
-
         [Then(@"recebo a mensagem de validação do e-mail '(.*)'")]
         public void ValidacaoEmail(string assert)
         {

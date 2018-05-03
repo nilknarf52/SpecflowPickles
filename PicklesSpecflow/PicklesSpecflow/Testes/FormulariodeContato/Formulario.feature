@@ -8,7 +8,7 @@ Contexto:
 	Dado que eu esteja no site jobmidia
 	E navego em formulario de contato
 
-@Browser:Firefox @Browser:IE @Browser:Edge @Browser:Chrome @Browser:Phantom
+@Browser:Chrome @console
 Cenário: Preenchimento do formulario corretamente
 	E informo todos os dados
 	 |Nome		|Email					|Telefone	  | Mensagem		  |

@@ -26,10 +26,10 @@ namespace PicklesSpecflow.Navegacao.FormulariodeContato
 
         public class Formulario
         {
-        //    public string Nome { get; set; }
-        //    public string Email { get; set; }
-        //    public string Telefone { get; set; }
-        //    public string Mensagem { get; set; }
+            public string Nome { get; set; }
+            public string Email { get; set; }
+            public string Telefone { get; set; }
+            public string Mensagem { get; set; }
 
         }
 
@@ -69,7 +69,7 @@ namespace PicklesSpecflow.Navegacao.FormulariodeContato
 
         {
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(30));
-            //var formulario = table.CreateInstance<Formulario>();
+           //var formulario = table.CreateInstance<Formulario>();
             _instance = table.CreateDynamicInstance();
 
 

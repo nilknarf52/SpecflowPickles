@@ -86,20 +86,14 @@ namespace PicklesSpecflow.Testes.FormulariodeContato
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Preenchimento do formulario corretamente")]
-        [NUnit.Framework.TestCaseAttribute("Firefox", Category="Firefox", TestName="PreenchimentoDoFormularioCorretamente with Firefox")]
-        [NUnit.Framework.TestCaseAttribute("IE", Category="IE", TestName="PreenchimentoDoFormularioCorretamente with IE")]
-        [NUnit.Framework.TestCaseAttribute("Edge", Category="Edge", TestName="PreenchimentoDoFormularioCorretamente with Edge")]
+        [NUnit.Framework.CategoryAttribute("console")]
         [NUnit.Framework.TestCaseAttribute("Chrome", Category="Chrome", TestName="PreenchimentoDoFormularioCorretamente with Chrome")]
-        [NUnit.Framework.TestCaseAttribute("Phantom", Category="Phantom", TestName="PreenchimentoDoFormularioCorretamente with Phantom")]
         public virtual void PreenchimentoDoFormularioCorretamente(string browser)
         {
 InitializeSeleniumBrowser(browser);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Preenchimento do formulario corretamente", new string[] {
-                        "Browser:Firefox",
-                        "Browser:IE",
-                        "Browser:Edge",
                         "Browser:Chrome",
-                        "Browser:Phantom"});
+                        "console"});
             this.ScenarioSetup(scenarioInfo);
             this.FeatureBackground();
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
