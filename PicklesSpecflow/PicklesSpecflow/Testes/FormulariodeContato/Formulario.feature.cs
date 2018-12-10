@@ -86,14 +86,18 @@ namespace PicklesSpecflow.Testes.FormulariodeContato
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Preenchimento do formulario corretamente")]
-        [NUnit.Framework.CategoryAttribute("console")]
-        [NUnit.Framework.TestCaseAttribute("Chrome", Category="Chrome", TestName="PreenchimentoDoFormularioCorretamente with Chrome")]
+        [NUnit.Framework.TestCaseAttribute("EdgeDocker", Category="EdgeDocker", TestName="PreenchimentoDoFormularioCorretamente with EdgeDocker")]
+        [NUnit.Framework.TestCaseAttribute("ChromeDocker", Category="ChromeDocker", TestName="PreenchimentoDoFormularioCorretamente with ChromeDocker")]
+        [NUnit.Framework.TestCaseAttribute("IEDocker", Category="IEDocker", TestName="PreenchimentoDoFormularioCorretamente with IEDocker")]
+        [NUnit.Framework.TestCaseAttribute("PhantomDocker", Category="PhantomDocker", TestName="PreenchimentoDoFormularioCorretamente with PhantomDocker")]
         public virtual void PreenchimentoDoFormularioCorretamente(string browser)
         {
 InitializeSeleniumBrowser(browser);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Preenchimento do formulario corretamente", new string[] {
-                        "Browser:Chrome",
-                        "console"});
+                        "Browser:EdgeDocker",
+                        "Browser:ChromeDocker",
+                        "Browser:IEDocker",
+                        "Browser:PhantomDocker"});
             this.ScenarioSetup(scenarioInfo);
             this.FeatureBackground();
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -114,20 +118,18 @@ InitializeSeleniumBrowser(browser);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Preenchimento do formulario com email incorreto")]
-        [NUnit.Framework.TestCaseAttribute("Firefox", Category="Firefox", TestName="PreenchimentoDoFormularioComEmailIncorreto with Firefox")]
+        [NUnit.Framework.TestCaseAttribute("FirefoxDocker", Category="FirefoxDocker", TestName="PreenchimentoDoFormularioComEmailIncorreto with FirefoxDocker")]
         [NUnit.Framework.TestCaseAttribute("IE", Category="IE", TestName="PreenchimentoDoFormularioComEmailIncorreto with IE")]
         [NUnit.Framework.TestCaseAttribute("Edge", Category="Edge", TestName="PreenchimentoDoFormularioComEmailIncorreto with Edge")]
         [NUnit.Framework.TestCaseAttribute("Chrome", Category="Chrome", TestName="PreenchimentoDoFormularioComEmailIncorreto with Chrome")]
-        [NUnit.Framework.TestCaseAttribute("Phantom", Category="Phantom", TestName="PreenchimentoDoFormularioComEmailIncorreto with Phantom")]
         public virtual void PreenchimentoDoFormularioComEmailIncorreto(string browser)
         {
 InitializeSeleniumBrowser(browser);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Preenchimento do formulario com email incorreto", new string[] {
-                        "Browser:Firefox",
+                        "Browser:FirefoxDocker",
                         "Browser:IE",
                         "Browser:Edge",
-                        "Browser:Chrome",
-                        "Browser:Phantom"});
+                        "Browser:Chrome"});
             this.ScenarioSetup(scenarioInfo);
             this.FeatureBackground();
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -183,7 +185,7 @@ InitializeSeleniumBrowser(browser);
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Preenchimento do formulario telefone incorreto")]
         [NUnit.Framework.TestCaseAttribute("Firefox", Category="Firefox", TestName="PreenchimentoDoFormularioTelefoneIncorreto with Firefox")]
-        [NUnit.Framework.TestCaseAttribute("IE", Category="IE", TestName="PreenchimentoDoFormularioTelefoneIncorreto with IE")]
+        [NUnit.Framework.TestCaseAttribute("IEDocker", Category="IEDocker", TestName="PreenchimentoDoFormularioTelefoneIncorreto with IEDocker")]
         [NUnit.Framework.TestCaseAttribute("Edge", Category="Edge", TestName="PreenchimentoDoFormularioTelefoneIncorreto with Edge")]
         [NUnit.Framework.TestCaseAttribute("Chrome", Category="Chrome", TestName="PreenchimentoDoFormularioTelefoneIncorreto with Chrome")]
         [NUnit.Framework.TestCaseAttribute("Phantom", Category="Phantom", TestName="PreenchimentoDoFormularioTelefoneIncorreto with Phantom")]
@@ -192,7 +194,7 @@ InitializeSeleniumBrowser(browser);
 InitializeSeleniumBrowser(browser);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Preenchimento do formulario telefone incorreto", new string[] {
                         "Browser:Firefox",
-                        "Browser:IE",
+                        "Browser:IEDocker",
                         "Browser:Edge",
                         "Browser:Chrome",
                         "Browser:Phantom"});

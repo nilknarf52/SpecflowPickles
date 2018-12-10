@@ -16,6 +16,7 @@ namespace PicklesSpecflow.Configuration
 
         public void SetupBrowser()
         {
+            //_driver.Manage().Cookies.DeleteAllCookies();
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(45);
             _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
             _driver.Manage().Timeouts().AsynchronousJavaScript = TimeSpan.FromSeconds(50);

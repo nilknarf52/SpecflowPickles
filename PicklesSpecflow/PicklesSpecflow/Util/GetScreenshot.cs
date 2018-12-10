@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,14 @@ using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Tracing;
 
-namespace PicklesSpecflow.Helpers
+namespace PicklesSpecflow.Util
 {
-    public static class TearDown
-    { 
+    public class Screen
+    {
+        public static string ScreenshotFilePath;
         public static void TakeScreenshot(IWebDriver driver)
         {
+            string PathTargetScreenshot = ConfigurationManager.AppSettings["FilePathScreenshot"];
             try
             {
                 string fileNameBase = string.Format("Evidencias_{0}_{1}_{2}",
@@ -21,9 +24,7 @@ namespace PicklesSpecflow.Helpers
                                                     ScenarioContext.Current.ScenarioInfo.Title.ToIdentifier(),
                                                     DateTime.Now.ToString("ddMMyyyy_HHmmss"));
 
-                //var artifactDirectory = (Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location)).Parent.Parent.FullName + "\\Evidencias";
-                //var artifactDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Evidencias");
-                var artifactDirectory = ("c:\\Teste");
+                var artifactDirectory = Path.Combine(PathTargetScreenshot, "Evidencias");
 
                 Directory.CreateDirectory(artifactDirectory);
 
@@ -39,7 +40,7 @@ namespace PicklesSpecflow.Helpers
                     var screenshot = takesScreenshot.GetScreenshot();
 
                     string screenshotFilePath = Path.Combine(artifactDirectory, fileNameBase + "_screenshot.png");
-
+                    ScreenshotFilePath = screenshotFilePath;
                     screenshot.SaveAsFile(screenshotFilePath, ScreenshotImageFormat.Png);
 
                     Console.WriteLine("Screenshot: {0}", new Uri(screenshotFilePath));

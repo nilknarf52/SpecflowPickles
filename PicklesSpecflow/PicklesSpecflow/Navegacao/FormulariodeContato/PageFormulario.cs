@@ -64,26 +64,26 @@ namespace PicklesSpecflow.Navegacao.FormulariodeContato
             SetupBrowser();
             _driver.Navigate().GoToUrl(Base);
         }
-        private dynamic _instance;
+        //private dynamic _instance;
         public void PreenchimentoForm(Table table)
 
         {
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(30));
-           //var formulario = table.CreateInstance<Formulario>();
-            _instance = table.CreateDynamicInstance();
+           var formulario = table.CreateInstance<Formulario>();
+            //_instance = table.CreateDynamicInstance();
 
 
             var nome = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(camponome));
-            nome.SendKeys(_instance.Nome);
+            nome.SendKeys(formulario.Nome);
 
             var email = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id("email")));
-            email.SendKeys(_instance.Email);
+            email.SendKeys(formulario.Email);
 
             var telefone = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id("phone")));
-            telefone.SendKeys(_instance.Telefone);
+            telefone.SendKeys(formulario.Telefone);
 
             var mensagem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id("message")));
-            mensagem.SendKeys(_instance.Mensagem);
+            mensagem.SendKeys(formulario.Mensagem);
 
         }
 

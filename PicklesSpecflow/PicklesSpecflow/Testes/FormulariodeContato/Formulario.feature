@@ -8,7 +8,7 @@ Contexto:
 	Dado que eu esteja no site jobmidia
 	E navego em formulario de contato
 
-@Browser:Chrome @console
+@Browser:EdgeDocker @Browser:ChromeDocker @Browser:IEDocker @Browser:PhantomDocker
 Cenário: Preenchimento do formulario corretamente
 	E informo todos os dados
 	 |Nome		|Email					|Telefone	  | Mensagem		  |
@@ -16,7 +16,7 @@ Cenário: Preenchimento do formulario corretamente
 	Quando envio o formulario
 	Então recebo a mensagem de sucesso 'Sua mensagem foi enviada com sucesso.'
 
-@Browser:Firefox @Browser:IE @Browser:Edge @Browser:Chrome @Browser:Phantom
+@Browser:FirefoxDocker @Browser:IE @Browser:Edge @Browser:Chrome
 Cenário: Preenchimento do formulario com email incorreto
 	Mas informo o email incompleto
 	|Nome		|Email					|Telefone	  | Mensagem		  |
@@ -32,7 +32,7 @@ Cenário: Preenchimento do formulario sem mensagem
 	Quando envio o formulario
 	Então recebo a mensagem de validação de mensagem 'Por favor informe uma mensagem.'
 
-@Browser:Firefox @Browser:IE @Browser:Edge @Browser:Chrome @Browser:Phantom
+@Browser:Firefox @Browser:IEDocker @Browser:Edge @Browser:Chrome @Browser:Phantom
 Cenário: Preenchimento do formulario telefone incorreto
 	Mas não informo telefone
 	|Nome		|Email					|Telefone	  | Mensagem		  |

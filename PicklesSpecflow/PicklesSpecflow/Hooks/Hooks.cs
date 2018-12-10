@@ -1,51 +1,91 @@
 ﻿using AventStack.ExtentReports;
 using AventStack.ExtentReports.Gherkin.Model;
+using AventStack.ExtentReports.Model;
 using AventStack.ExtentReports.Reporter;
+using AventStack.ExtentReports.Reporter.Configuration;
 using BoDi;
-using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Remote;
+using PicklesSpecflow.Util;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
-//using Unickq.SpecFlow.Selenium;
+using Unickq.SpecFlow.Selenium;
 
-
-namespace PicklesSpecflow.Util
+namespace PicklesSpecflow.Hooks
 {
+    public class Hooks : Screen
 
-    [Binding]
-    public class StartGenericDriver
     {
         //Global Variable for Extend report
         private static ExtentTest featureName;
+        private static KlovReporter klov;
         private static ExtentTest scenario;
         private static ExtentReports extent;
-
         private readonly IObjectContainer _objectContainer;
+        protected IWebDriver Browser;
+        protected readonly ScenarioContext scenarioContext;
 
-        private RemoteWebDriver _driver;
-
-        public StartGenericDriver(IObjectContainer objectContainer)
+        public Hooks(IObjectContainer objectContainer)
         {
             _objectContainer = objectContainer;
+        }
+
+        [AfterScenario]
+        public void CloseWebDriver()
+        {
+            if (ScenarioContext.Current.TestError != null)
+                Browser.Dispose();
         }
 
         [BeforeTestRun]
         public static void InitializeReport()
         {
             //Initialize Extent report before test starts
-            var htmlReporter = new ExtentHtmlReporter(@"C:\Teste\ExtentReport.html");
-            htmlReporter.Configuration().Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Dark;
-            //Attach report to reporter
+            string PathTargetReport = ConfigurationManager.AppSettings["FilePathTarget"];
+            var htmlReporter = new ExtentHtmlReporter(PathTargetReport + "Report.html");
+
+            htmlReporter.Configuration().Theme = Theme.Dark;
             extent = new ExtentReports();
+            extent.AddSystemInfo("Selenium", "v.3.10.0");
+            extent.AddSystemInfo("Specflow", "v.2.3.2");
+            extent.AddSystemInfo("NUnit", "v.3.8.1");
+
+            #region KlovReporter
+            //var klov = new KlovReporter();
+
+            // specify mongoDb connection
+            //klov.InitMongoDbConnection("localhost", 27017);
+
+            // specify project ! you must specify a project, other a "Default project will be used"
+            // klov.ProjectName = "Sistema de Apuração de Interatividade";
+
+            // you must specify a reportName otherwise a default timestamp will be used
+            // klov.ReportName = "Execução de Testes " + DateTime.Now.ToString();
+
+            // URL of the KLOV server
+            //klov.KlovUrl = "http://localhost";
+            //extent.AttachReporter(htmlReporter,klov);
+            #endregion
+            //Attach report to reporter
+
             extent.AttachReporter(htmlReporter);
+
+
+        }
+
+
+        [BeforeFeature]
+
+        public static void BeforeFeature()
+        {
+            //Create dynamic feature name
+            featureName = extent.CreateTest<Feature>(FeatureContext.Current.FeatureInfo.Title);
         }
 
         [AfterTestRun]
@@ -55,25 +95,29 @@ namespace PicklesSpecflow.Util
             extent.Flush();
         }
 
-        [BeforeFeature]
-        public static void BeforeFeature()
-        {
-            //Create dynamic feature name
-            featureName = extent.CreateTest<Feature>(FeatureContext.Current.FeatureInfo.Title);
-        }
 
         [AfterStep]
         public void InsertReportingSteps()
         {
+            #region TakeScreenshot
+            if (ScenarioContext.Current.TestError != null)
+            {
+                Browser = ScenarioContext.Current.GetWebDriver();
+                Util.Screen.TakeScreenshot(Browser);
+            }
 
+            #endregion
+
+            #region InsertReportingSteps
             var stepType = ScenarioStepContext.Current.StepInfo.StepDefinitionType.ToString();
 
-            PropertyInfo pInfo = typeof(ScenarioContext).GetProperty("ScenarioExecutionStatus", BindingFlags.Instance | BindingFlags.NonPublic);
+            PropertyInfo pInfo = typeof(ScenarioContext).GetProperty("ScenarioExecutionStatus", BindingFlags.Instance | BindingFlags.Public);
             MethodInfo getter = pInfo.GetGetMethod(nonPublic: true);
             object TestResult = getter.Invoke(ScenarioContext.Current, null);
 
             if (ScenarioContext.Current.TestError == null)
             {
+
                 if (stepType == "Given")
                     scenario.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text);
                 else if (stepType == "When")
@@ -86,11 +130,14 @@ namespace PicklesSpecflow.Util
             else if (ScenarioContext.Current.TestError != null)
             {
                 if (stepType == "Given")
-                    scenario.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.InnerException);
+                    scenario.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
                 else if (stepType == "When")
-                    scenario.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.InnerException);
+                    scenario.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
                 else if (stepType == "Then")
                     scenario.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
+                featureName.AddScreenCaptureFromPath(ScreenshotFilePath);
+
+
             }
 
             //Pending Status
@@ -105,56 +152,17 @@ namespace PicklesSpecflow.Util
 
             }
 
-        }
 
+            #endregion
+        }
 
         [BeforeScenario]
         public void Initialize()
         {
-            //SelectBrowser(BrowserType.Firefox);
             //Create dynamic scenario name
             scenario = featureName.CreateNode<Scenario>(ScenarioContext.Current.ScenarioInfo.Title);
+            scenario.AssignCategory(ScenarioContext.Current.ScenarioInfo.Tags);
+
         }
-
-        [AfterScenario]
-        public void CleanUp()
-        {
-            //_driver.Quit();
-        }
-
-
-        internal void SelectBrowser(BrowserType browserType)
-        {
-            switch (browserType)
-            {
-                case BrowserType.Chrome:
-                    ChromeOptions option = new ChromeOptions();
-                    //option.AddArgument("--headless");
-                    _driver = new ChromeDriver(option);
-                    _objectContainer.RegisterInstanceAs<IWebDriver>(_driver);
-                    break;
-                case BrowserType.Firefox:
-                    var driverDir = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                    FirefoxDriverService service = FirefoxDriverService.CreateDefaultService(driverDir, "geckodriver.exe");
-                    service.FirefoxBinaryPath = @"C:\Program Files (x86)\Mozilla Firefox\firefox.exe";
-                    service.HideCommandPromptWindow = true;
-                    service.SuppressInitialDiagnosticInformation = true;
-                    _driver = new FirefoxDriver(service);
-                    _objectContainer.RegisterInstanceAs<RemoteWebDriver>(_driver);
-                    break;
-                case BrowserType.IE:
-                    break;
-                default:
-                    break;
-            }
-        }
-
-    }
-
-    enum BrowserType
-    {
-        Chrome,
-        Firefox,
-        IE
     }
 }
