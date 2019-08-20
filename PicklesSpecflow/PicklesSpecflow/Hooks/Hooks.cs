@@ -19,6 +19,8 @@ using Unickq.SpecFlow.Selenium;
 
 namespace PicklesSpecflow.Hooks
 {
+
+    [Binding]
     public class Hooks : Screen
 
     {

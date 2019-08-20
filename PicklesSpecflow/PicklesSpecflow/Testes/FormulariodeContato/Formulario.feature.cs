@@ -112,7 +112,7 @@ InitializeSeleniumBrowser(browser);
                         "Teste de Mensagem"});
             testRunner.And("informo todos os dados", ((string)(null)), table1, "E ");
             testRunner.When("envio o formulario", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
-            testRunner.Then("recebo a mensagem de sucesso \'Sua mensagem foi enviada com sucesso.\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Então ");
+            testRunner.Then("recebo a mensagem de sucesso \'Sua mensagem foi enviada com sucesso..\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Então ");
             this.ScenarioCleanup();
         }
         
@@ -224,3 +224,4 @@ InitializeSeleniumBrowser(browser);
 }
 #pragma warning restore
 #endregion
+

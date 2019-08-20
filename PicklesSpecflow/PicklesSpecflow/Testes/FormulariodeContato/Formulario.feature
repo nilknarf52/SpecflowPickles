@@ -14,7 +14,7 @@ Cenário: Preenchimento do formulario corretamente
 	 |Nome		|Email					|Telefone	  | Mensagem		  |
 	 |Franklin	|franklinjob@hotmail.com|(21)991475281|	Teste de Mensagem |
 	Quando envio o formulario
-	Então recebo a mensagem de sucesso 'Sua mensagem foi enviada com sucesso.'
+	Então recebo a mensagem de sucesso 'Sua mensagem foi enviada com sucesso..'
 
 @Browser:FirefoxDocker @Browser:IE @Browser:Edge @Browser:Chrome
 Cenário: Preenchimento do formulario com email incorreto
